@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+<h1>Welcome to book club, {{ user.first_name }}!</h1>
+<form action="{{ url_for('search') }}" method="post"> 
+    <div class="form-group">
+      <label for="search-keyword">Search by ISBN, title, or author.</label>
+      <input type="text" class="form-control" name="search-keyword">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}

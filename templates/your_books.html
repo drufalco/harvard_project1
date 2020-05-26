@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Your Books
+{% endblock %}
+
+{% block body %}
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date Added</th>
+    </tr>
+    {% for your_book in your_books %}
+    <tr>
+        <td>{{ your_book.title }}</td>
+        <td>{{ your_book.author }}</td>
+        <td>{{ your_book.date.strftime('%b %d, %Y') }}</td>
+       
+        <!--how to do date?? do i need an additional table for this-->
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock %}
