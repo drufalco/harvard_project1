@@ -16,7 +16,7 @@
             <!-- number of reviews !--> 
             <h3>Book Club Reviews</h3>
             {% if bookclub_avg_rating %}
-                <p>Number of reviews from Book Club:</p>
+                <p>Number of reviews from Book Club: {{ bookclub_number_ratings }}</p>
                 <p>Average rating from Book Club: {{ bookclub_avg_rating }}</p>
             {% else %}
                 <p>No reviews yet!</p>
@@ -52,7 +52,7 @@
                     <label class="form-check-label" for="inlineRadio5">5</label>
                   </div>
     
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
             </form>
             {% endif %}
 

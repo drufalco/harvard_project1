@@ -58,7 +58,7 @@ def logging_in():
 
     #Check if user exists
     if db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password" : password}).rowcount == 0:
-        return render_template("error.html", message="This username does not exist or password is wrong.") 
+        return render_template("error.html", message="This username does not exist or password is wrong.", log_message="Log in") 
     
     # log user in
     user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password" : password}).fetchone()
@@ -142,10 +142,13 @@ def book(isbn):
     user = db.execute("SELECT * FROM users JOIN reviews ON users.user_id = reviews.user_id WHERE isbn = :isbn", {"isbn": isbn}).fetchall() 
     
     bookclub_avg_rating = False
+    bookclub_number_ratings = False
     if db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount>0: 
         bookclub_avg_rating = db.execute("SELECT ROUND(AVG(rating), 2) FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
+        bookclub_number_ratings = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount
+        print(bookclub_number_ratings)
     db.commit()
-    return render_template("book.html", book=book, number_ratings=number_ratings, avg_rating=avg_rating, reviews=reviews, isbn=isbn, already_reviewed=already_reviewed, user=user, log_message="Log out", bookclub_avg_rating=bookclub_avg_rating)
+    return render_template("book.html", book=book, number_ratings=number_ratings, avg_rating=avg_rating, reviews=reviews, isbn=isbn, already_reviewed=already_reviewed, user=user, log_message="Log out", bookclub_avg_rating=bookclub_avg_rating, bookclub_number_ratings=bookclub_number_ratings)
 
 
 @app.route("/your_books", methods=["GET", "POST"])

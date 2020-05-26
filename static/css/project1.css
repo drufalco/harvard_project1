@@ -1,0 +1,52 @@
+
+h1, h2 {
+    margin-bottom: 18px;
+    margin-top: 18px;
+}
+
+.navbar, .search {
+    background-color:#f54e91;
+}
+ 
+.search, #logout, #your_books, #brand {
+    color: white;
+    border-color: white;
+}
+
+.search:hover {
+    background-color:#c2067a;
+    border-color: white;
+}
+
+#logout:hover {
+    background-color: #d42be3;
+}
+
+#submit {
+    background-color: #c2067a;
+}
+
+a, a:hover {
+    color:black;
+    font-weight: bold;
+}
+
+td, .list {
+    padding-bottom: 9px;
+}
+
+th {
+    font-size: 24px;
+    border-bottom: 1px solid gray;
+}
+
+table {
+    width: 100%;
+}
+
+tr:hover {
+    background-color: #e3d8df;
+}
+
+
+

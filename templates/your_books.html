@@ -5,6 +5,7 @@ Your Books
 {% endblock %}
 
 {% block body %}
+<h1>Your reviews</h1>
 <table>
     <tr>
         <th>Title</th>
@@ -13,11 +14,9 @@ Your Books
     </tr>
     {% for your_book in your_books %}
     <tr>
-        <td>{{ your_book.title }}</td>
+        <td><a href="{{ url_for('book', book=your_book, isbn=your_book.isbn) }}">{{ your_book.title }}</a></td>
         <td>{{ your_book.author }}</td>
         <td>{{ your_book.date.strftime('%b %d, %Y') }}</td>
-       
-        <!--how to do date?? do i need an additional table for this-->
     </tr>
     {% endfor %}
 

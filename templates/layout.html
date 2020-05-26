@@ -3,18 +3,23 @@
     <head>
         <title>{% block title %}{% endblock %} | Book Club</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/css/project1.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
 
-    <nav class="navbar navbar-light bg-light">
-        <a href="{{ url_for('home') }}" class="navbar-brand">Book Club</a>
-        <a href="{{ url_for('your_books') }}" class="nav-item nav-link">Your Books</a>
+    <nav class="navbar navbar-light">
+        <a href="{{ url_for('home') }}" class="navbar-brand" id="brand">Book Club</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="{{ url_for('your_books') }}" id="your_books" class="nav-item nav-link">Your Books</a>
+            </li>
+        </ul>
         <form class="form-inline" action="{{ url_for('search') }}" method="POST">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search-keyword">
-            <button class="btn btn-primary btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-primary btn-outline-success my-2 my-sm-0 search" id="search_button" type="submit">Search</button>
         </form>
         <form class="form-inline" action="{{ url_for('logout') }}" method="POST">
-            <button class="btn btn-outline-success" type="submit">{{ log_message }}</button>
+            <button class="btn btn-outline-success" type="submit" id="logout">{{ log_message }}</button>
         </form>
       </nav>
 
