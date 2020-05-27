@@ -58,7 +58,7 @@ def logging_in():
 
     #Check if user exists
     if db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password" : password}).rowcount == 0:
-        return render_template("error.html", message="This username does not exist or password is wrong.", log_message="Log in") 
+        return render_template("error.html", message="This username or password is wrong.", log_message="Log in") 
     
     # log user in
     user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password" : password}).fetchone()
@@ -79,7 +79,9 @@ def home():
     
     if "user_id" not in session:
         return redirect(url_for('login'))
+
     user = db.execute("SELECT * FROM users WHERE user_id = :user_id", {"user_id": session["user_id"]}).fetchone()
+    db.commit()
     return render_template("home.html", log_message="Log out", user=user)
 
 #search
@@ -97,7 +99,7 @@ def search():
     if len(book_list) == 0: #if there are no matching books ******* make into banner later?
         return render_template("error.html", message="No books found.")
     #lists all books that match 
-    #db.commit? *********************
+    db.commit()
     return render_template("books.html", book_list=book_list, log_message="Log out")
 
 #individual book page
@@ -141,6 +143,7 @@ def book(isbn):
     # TODO: talk about join 
     user = db.execute("SELECT * FROM users JOIN reviews ON users.user_id = reviews.user_id WHERE isbn = :isbn", {"isbn": isbn}).fetchall() 
     
+    # get stats
     bookclub_avg_rating = False
     bookclub_number_ratings = False
     if db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount>0: 
@@ -158,7 +161,7 @@ def your_books():
 
     #pull list of all the books user has reviewed
     your_books = db.execute("SELECT * FROM reviews JOIN books ON reviews.isbn = books.isbn WHERE reviews.user_id = :user_id", {"user_id": session["user_id"]}).fetchall()
-    print(your_books)
+    db.commit()
     return render_template("your_books.html", your_books=your_books, log_message="Log out")
 
 
@@ -171,6 +174,7 @@ def book_api(isbn):
 
     bookclub_avg_rating = bookclub_avg_rating = db.execute("SELECT ROUND(AVG(rating), 2) FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
     bookclub_number_ratings = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount
+    db.commiy()
 
     return jsonify({
         "title": book.title,
