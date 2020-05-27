@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from datetime import datetime
 
+
 app = Flask(__name__)
 
 # Check for environment variable
@@ -149,7 +150,7 @@ def book(isbn):
     if db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount>0: 
         bookclub_avg_rating = db.execute("SELECT ROUND(AVG(rating), 2) FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
         bookclub_number_ratings = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount
-        print(bookclub_number_ratings)
+        
     db.commit()
     return render_template("book.html", book=book, number_ratings=number_ratings, avg_rating=avg_rating, reviews=reviews, isbn=isbn, already_reviewed=already_reviewed, user=user, log_message="Log out", bookclub_avg_rating=bookclub_avg_rating, bookclub_number_ratings=bookclub_number_ratings)
 
@@ -174,8 +175,9 @@ def book_api(isbn):
 
     bookclub_avg_rating = bookclub_avg_rating = db.execute("SELECT ROUND(AVG(rating), 2) FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
     bookclub_number_ratings = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount
-    db.commiy()
+    db.commit()
 
+    print(bookclub_avg_rating)
     return jsonify({
         "title": book.title,
         "author": book.author,
@@ -184,5 +186,6 @@ def book_api(isbn):
         "review_count": bookclub_number_ratings,
         "average_score": bookclub_avg_rating
     })
+    
     
 
