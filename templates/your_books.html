@@ -6,19 +6,26 @@ Your Books
 
 {% block body %}
 <h1>Your reviews</h1>
+{% if your_books|length >0 %}
 <table>
     <tr>
         <th>Title</th>
         <th>Author</th>
+        <th>Your Review</th>
+        <th>Rating</th>
         <th>Date Added</th>
     </tr>
     {% for your_book in your_books %}
     <tr>
         <td><a href="{{ url_for('book', book=your_book, isbn=your_book.isbn) }}">{{ your_book.title }}</a></td>
         <td>{{ your_book.author }}</td>
+        <td>{{your_book.review}}</td>
+        <td>{{your_book.rating}}</td>
         <td>{{ your_book.date.strftime('%b %d, %Y') }}</td>
     </tr>
     {% endfor %}
-
+{% else %}
+<p>No reviews yet!</p>
+{% endif %}
 </table>
 {% endblock %}

@@ -1,5 +1,5 @@
 
-h1, h2 {
+h1, h2, h3 {
     margin-bottom: 18px;
     margin-top: 18px;
 }
@@ -20,10 +20,6 @@ h1, h2 {
 
 #logout:hover {
     background-color: #d42be3;
-}
-
-#submit {
-    background-color: #c2067a;
 }
 
 a, a:hover {

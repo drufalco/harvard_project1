@@ -9,18 +9,18 @@
             <p>Published: {{ book.year }}</p>
             <p>ISBN: {{ book.isbn }}</p>
 
-        <h2>Reviews</h2>
+        <h2>Quick Stats</h2>
             <p>Number of reviews from Goodreads: {{ number_ratings }}</p>
             <p>Average rating from Goodreads: {{ avg_rating }}</p>
 
-            <!-- number of reviews !--> 
-            <h3>Book Club Reviews</h3>
             {% if bookclub_avg_rating %}
                 <p>Number of reviews from Book Club: {{ bookclub_number_ratings }}</p>
                 <p>Average rating from Book Club: {{ bookclub_avg_rating }}</p>
             {% else %}
+            
                 <p>No reviews yet!</p>
             {% endif %}
+            <h3>Book Club Reviews</h3>
             {% if already_reviewed %}
                 <p>Thanks for submitting your review!</p>
 
@@ -52,14 +52,15 @@
                     <label class="form-check-label" for="inlineRadio5">5</label>
                   </div>
     
-                <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                <button type="submit" class="btn btn-primary search" id="submit">Submit</button>
             </form>
             {% endif %}
 
+            
               <ul>
                 {% for a_review in reviews %}
                     <li>
-                        Review by {{ user[loop.index0].first_name }}: {{ a_review.review }}
+                        {{a_review.rating}}-Star Review by {{ user[loop.index0].first_name }}: {{ a_review.review }}
                     </li>
                 {% endfor %}
             </ul>

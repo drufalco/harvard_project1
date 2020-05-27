@@ -1,6 +1,6 @@
 import os, requests
 
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, url_for, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -150,7 +150,7 @@ def book(isbn):
     db.commit()
     return render_template("book.html", book=book, number_ratings=number_ratings, avg_rating=avg_rating, reviews=reviews, isbn=isbn, already_reviewed=already_reviewed, user=user, log_message="Log out", bookclub_avg_rating=bookclub_avg_rating, bookclub_number_ratings=bookclub_number_ratings)
 
-
+# Shows all books user has reviewed
 @app.route("/your_books", methods=["GET", "POST"])
 def your_books():
     if "user_id" not in session:
@@ -158,4 +158,27 @@ def your_books():
 
     #pull list of all the books user has reviewed
     your_books = db.execute("SELECT * FROM reviews JOIN books ON reviews.isbn = books.isbn WHERE reviews.user_id = :user_id", {"user_id": session["user_id"]}).fetchall()
+    print(your_books)
     return render_template("your_books.html", your_books=your_books, log_message="Log out")
+
+
+#API
+@app.route("/api/books/<isbn>")
+def book_api(isbn):
+    book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
+    if book is None:
+        return jsonify({"error": "Invalid ISBN"}), 422
+
+    bookclub_avg_rating = bookclub_avg_rating = db.execute("SELECT ROUND(AVG(rating), 2) FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).fetchone()[0]
+    bookclub_number_ratings = db.execute("SELECT * FROM reviews WHERE isbn = :isbn", {"isbn": isbn}).rowcount
+
+    return jsonify({
+        "title": book.title,
+        "author": book.author,
+        "year": book.year,
+        "isbn": book.isbn,
+        "review_count": bookclub_number_ratings,
+        "average_score": bookclub_avg_rating
+    })
+    
+
